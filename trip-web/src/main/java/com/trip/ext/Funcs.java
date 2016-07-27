@@ -1,5 +1,6 @@
 package com.trip.ext;
 
+import com.trip.common.Constants;
 import com.trip.utils.DateUtil;
 import com.trip.utils.StringUtil;
 import jetbrick.template.JetAnnotations;
@@ -13,7 +14,8 @@ public class Funcs {
 	 * @return
 	 */
 	public static String base_url(String path) {
-		return path;
+
+		return Constants.CONTEXT_PATH + path;
 	}
 
 	/**

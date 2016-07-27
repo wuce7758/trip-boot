@@ -5,13 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 全局异常处理
@@ -22,21 +20,17 @@ public class GlobalDefaultExceptionHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalDefaultExceptionHandler.class);
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(value = Exception.class)
-    @ResponseBody
-    public Object exceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
-        Map<String, Object> hello = new HashMap<>(2);
-        hello.put("url", request.getRequestURI().toString());
-        hello.put("message", e.getMessage());
+    @ExceptionHandler(value = RuntimeException.class)
+    public ModelAndView exceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception e) {
 
-        LOGGER.error("异常URL => [{}]", request.getRequestURI().toString(), e);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("error");
+        modelAndView.addObject("url", request.getRequestURI());
+        modelAndView.addObject("message", e.getMessage());
 
-//      ModelAndView mav = new ModelAndView();
-//      mav.addObject("exception", e);
-//      mav.addObject("url", req.getRequestURL());
-//      mav.setViewName(DEFAULT_ERROR_VIEW);
-//      return mav;
-        return hello;
+        LOGGER.error("异常URL => [{}]", request.getRequestURI(), e);
+
+        return modelAndView;
     }
 
 }

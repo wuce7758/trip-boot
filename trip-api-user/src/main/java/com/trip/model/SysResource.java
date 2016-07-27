@@ -38,6 +38,11 @@ public class SysResource extends BaseEntity {
         public String getInfo() {
             return info;
         }
+
+        @Override
+        public String toString() {
+            return super.toString();
+        }
     }
 
     /**

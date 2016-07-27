@@ -7,10 +7,7 @@ import com.trip.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleService {
@@ -44,11 +41,19 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
         for(Long roleId : roleIds) {
             SysRole role = findOne(roleId);
             if(role != null) {
-                List roleResouceIds = Arrays.asList(role.getResourceIds().split(","));
-                resourceIds.addAll(roleResouceIds);
+                String[] resourceids = role.getResourceIds().split(",");
+                resourceIds.addAll(string2List(resourceids));
             }
         }
         return resourceService.findPermissions(resourceIds);
+    }
+
+    private List<Long> string2List(String[] arr){
+        List<Long> list = new ArrayList<>(arr.length);
+        for(String str : arr){
+            list.add(Long.valueOf(str));
+        }
+        return list;
     }
 
 }

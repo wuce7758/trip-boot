@@ -6,6 +6,7 @@ import com.trip.service.ResourceService;
 import org.apache.shiro.authz.permission.WildcardPermission;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,7 +38,7 @@ public class ResourceServiceImpl extends BaseServiceImpl<SysResource> implements
 
     @Override
     public List<SysResource> findAll() {
-        return super.selectList(new SysResource());
+        return super.selectList(new Example(SysResource.class));
     }
 
     @Override
@@ -49,7 +50,7 @@ public class ResourceServiceImpl extends BaseServiceImpl<SysResource> implements
                 continue;
             }
 
-            if(!resource.getType().equals(SysResource.ResourceType.menu.getInfo())) {
+            if(!resource.getType().equals("menu")) {
                 continue;
             }
 

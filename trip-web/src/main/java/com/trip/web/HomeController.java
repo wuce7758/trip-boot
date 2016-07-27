@@ -5,6 +5,7 @@ import com.trip.model.SysResource;
 import com.trip.model.SysUser;
 import com.trip.service.ResourceService;
 import com.trip.service.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,9 +28,11 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/")
-    public String index(SysUser loginUser, Model model) {
-        Set<String> permissions = userService.findPermissions(loginUser.getUsername());
+    @RequestMapping(value = {"/", "index"})
+    public String index(Model model) {
+        SysUser user = (SysUser) SecurityUtils.getSubject().getPrincipal();
+
+        Set<String> permissions = userService.findPermissions(user.getUsername());
         List<SysResource> menus = resourceService.findMenus(permissions);
         model.addAttribute("menus", menus);
         return "index";

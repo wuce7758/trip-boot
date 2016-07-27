@@ -16,21 +16,9 @@ public class LoginController {
         return "signin";
     }
 
-    /**
-     * 登录页面
-     *
-     * @return
-     */
-    @RequestMapping(value = {"login", "toLogin"}, method = RequestMethod.GET)
-    public String loginPage() {
-        return "login";
-    }
-
-    @RequestMapping(value = {"/login", "toLogin"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/signin"}, method = RequestMethod.POST)
     public String showLoginForm(HttpServletRequest request, Map<String, Object> map) {
-        System.out.println("HomeController.login()");
-        // 登录失败从request中获取shiro处理的异常信息。
-        // shiroLoginFailure:就是shiro异常类的全类名.
+
         String exception = (String) request.getAttribute("shiroLoginFailure");
 
         System.out.println("exception=" + exception);
@@ -51,7 +39,7 @@ public class LoginController {
             }
         }
         map.put("error", msg);
-        return "login";
+        return "signin";
     }
 
     /**
