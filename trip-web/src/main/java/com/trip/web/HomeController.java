@@ -1,16 +1,17 @@
 package com.trip.web;
 
 import com.google.common.collect.Lists;
+import com.trip.base.RestResponse;
 import com.trip.model.SysResource;
-import com.trip.model.SysUser;
 import com.trip.service.ResourceService;
 import com.trip.service.UserService;
+import com.trip.utils.StringUtil;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Map;
@@ -26,13 +27,24 @@ public class HomeController {
     private UserService userService;
 
     @RequestMapping(value = {"/", "index"})
-    public String index(Model model) {
-        SysUser user = (SysUser) SecurityUtils.getSubject().getPrincipal();
-
-        Set<String> permissions = userService.findPermissions(user.getUsername());
-        List<SysResource> menus = resourceService.findMenus(permissions);
-        model.addAttribute("menus", menus);
+    public String index() {
         return "index";
+    }
+
+    @RequestMapping(value = "menus.json")
+    @ResponseBody
+    public RestResponse<List<SysResource>> showMenus() {
+
+        RestResponse<List<SysResource>> response = new RestResponse<List<SysResource>>(false);
+
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        if(StringUtil.isNotBlank(username)){
+            Set<String> permissions = userService.findPermissions(username);
+            List<SysResource> menus = resourceService.findMenus(permissions);
+            response.setPayload(menus);
+        }
+
+        return response;
     }
 
     @RequestMapping("hello")
@@ -50,18 +62,6 @@ public class HomeController {
 
         return "hello";
     }
-
-
-    /**
-     * 登录后页面
-     *
-     * @return
-     */
-    @RequestMapping(value = "index", method = RequestMethod.GET)
-    public String indexPage(){
-        return "index";
-    }
-
 
     @RequestMapping("zeroException")
     public int zeroException(){

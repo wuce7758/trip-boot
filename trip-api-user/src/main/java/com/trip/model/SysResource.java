@@ -14,6 +14,8 @@ public class SysResource extends BaseEntity {
 
     private String type;
 
+    private String icon;
+
     private String url;
 
     @Column(name = "parent_id")
@@ -144,5 +146,13 @@ public class SysResource extends BaseEntity {
 
     public boolean isRootNode() {
         return parentId == 0;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }
