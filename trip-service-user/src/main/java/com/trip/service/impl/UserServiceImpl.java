@@ -1,6 +1,8 @@
 package com.trip.service.impl;
 
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.trip.base.BaseServiceImpl;
 import com.trip.model.SysUser;
 import com.trip.service.RoleService;
@@ -92,5 +94,12 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
     @Override
     public List<SysUser> findAll() {
         return super.selectAll();
+    }
+
+    @Override
+    public PageInfo<SysUser> findAll(int page, int count) {
+        PageHelper.startPage(page, count, "id");
+        List<SysUser> list = super.selectAll();
+        return new PageInfo<SysUser>(list);
     }
 }

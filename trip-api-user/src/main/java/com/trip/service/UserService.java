@@ -1,6 +1,7 @@
 package com.trip.service;
 
 
+import com.github.pagehelper.PageInfo;
 import com.trip.base.BaseService;
 import com.trip.model.SysUser;
 
@@ -26,4 +27,6 @@ public interface UserService extends BaseService<SysUser> {
     void changePassword(Long id, String newPassword);
 
     List<SysUser> findAll();
+
+    PageInfo<SysUser> findAll(int page, int count);
 }
