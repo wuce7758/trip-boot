@@ -27,20 +27,5 @@
     var BASE = '${BASE_PATH}';
     var CDN_URL = '${BASE_PATH}';
 
-    $.getJSON(BASE + 'menus.json', {}, function (data) {
-        if(data && data.success){
-            var html = '';
-            var current_page = $('#current_page').val();
-            for(var i in data.payload){
-                var item = data.payload[i];
-
-                var is_active = current_page == item.url ? ' class="active"' : '';
-
-                html += '<li'+is_active+'><a href="'+ BASE + item.url +'"><i class="'+ item.icon +'"></i> <span class="nav-label">'+ item.name +'</span></a></li>';
-            }
-            $('#nav_bar').append(html);
-        }
-    });
-
 </script>
 <script src="${BASE_PATH}static/js/admin.js"></script>
