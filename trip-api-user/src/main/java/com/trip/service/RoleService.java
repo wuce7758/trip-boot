@@ -1,6 +1,7 @@
 package com.trip.service;
 
 
+import com.github.pagehelper.PageInfo;
 import com.trip.model.SysRole;
 
 import java.util.List;
@@ -25,6 +26,8 @@ public interface RoleService {
     Set<String> findPermissions(Long[] roleIds);
 
     List<SysRole> findAll();
+
+    PageInfo<SysRole> findAll(int page, int count);
 
     void createRole(SysRole role);
 

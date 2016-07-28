@@ -3,7 +3,47 @@
     <h3 class="title">Welcome !</h3>
 </div>
 <div class="row">
-    resource list page!
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>名称</th>
+                <th>类型</th>
+                <th>URL路径</th>
+                <th>权限字符串</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            #for(resource : resourcePage.list)
+            <tr>
+                <td>${resource.name}</td>
+                <td>${resource.type}</td>
+                <td>${resource.url}</td>
+                <td>${resource.permission}</td>
+
+                <td>
+                    #tag has_permission("resource:create")
+                    #if(resource.type != 'button')
+                    <a href="${WEBROOT}/resource/${resource.id}/appendChild">添加子节点</a>
+                    #end
+                    #end
+
+                    #tag has_permission("resource:update")
+                    <a href="${WEBROOT}/resource/${resource.id}/update">修改</a>
+                    #end
+
+                    #tag has_permission("resource:delete")
+                    <a class="deleteBtn" href="#" data-id="${resource.id}">删除</a>
+                    #end
+                </td>
+            </tr>
+            #end
+            </tbody>
+        </table>
+
+        #call pager_bar(resourcePage, "")
+    </div>
 </div> <!-- end row -->
 #include("../common/footer.html")
 </body>

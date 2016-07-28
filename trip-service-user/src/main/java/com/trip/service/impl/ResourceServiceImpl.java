@@ -1,7 +1,10 @@
 package com.trip.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.trip.base.BaseServiceImpl;
 import com.trip.model.SysResource;
+import com.trip.model.SysRole;
 import com.trip.service.ResourceService;
 import org.apache.shiro.authz.permission.WildcardPermission;
 import org.springframework.core.io.Resource;
@@ -19,7 +22,7 @@ public class ResourceServiceImpl extends BaseServiceImpl<SysResource> implements
 
     @Override
     public SysResource findOne(Long id) {
-        if(null != id){
+        if (null != id) {
             return super.selectByPrimaryKey(id);
         }
         return null;
@@ -28,9 +31,9 @@ public class ResourceServiceImpl extends BaseServiceImpl<SysResource> implements
     @Override
     public Set<String> findPermissions(Set<Long> resourceIds) {
         Set<String> permissions = new HashSet<String>();
-        for(Long resourceId : resourceIds) {
+        for (Long resourceId : resourceIds) {
             SysResource resource = findOne(resourceId);
-            if(resource != null && !StringUtils.isEmpty(resource.getPermission())) {
+            if (resource != null && !StringUtils.isEmpty(resource.getPermission())) {
                 permissions.add(resource.getPermission());
             }
         }
@@ -39,24 +42,31 @@ public class ResourceServiceImpl extends BaseServiceImpl<SysResource> implements
 
     @Override
     public List<SysResource> findAll() {
-        return super.selectList(new Example(SysResource.class));
+        return super.selectAll();
+    }
+
+    @Override
+    public PageInfo<SysResource> findAll(int page, int count) {
+        PageHelper.startPage(page, count, "id");
+        List<SysResource> list = super.selectAll();
+        return new PageInfo<SysResource>(list);
     }
 
     @Override
     public List<SysResource> findMenus(Set<String> permissions) {
         List<SysResource> allResources = findAll();
         List<SysResource> menus = new ArrayList<SysResource>();
-        for(SysResource resource : allResources) {
-            if(resource.isRootNode()) {
+        for (SysResource resource : allResources) {
+            if (resource.isRootNode()) {
                 continue;
             }
 
             // 如果不是菜单
-            if(!resource.getType().equals(SysResource.ResourceType.menu.toString())) {
+            if (!resource.getType().equals(SysResource.ResourceType.menu.toString())) {
                 continue;
             }
 
-            if(!hasPermission(permissions, resource)) {
+            if (!hasPermission(permissions, resource)) {
                 continue;
             }
 
@@ -81,13 +91,13 @@ public class ResourceServiceImpl extends BaseServiceImpl<SysResource> implements
     }
 
     private boolean hasPermission(Set<String> permissions, SysResource resource) {
-        if(StringUtils.isEmpty(resource.getPermission())) {
+        if (StringUtils.isEmpty(resource.getPermission())) {
             return true;
         }
-        for(String permission : permissions) {
+        for (String permission : permissions) {
             WildcardPermission p1 = new WildcardPermission(permission);
             WildcardPermission p2 = new WildcardPermission(resource.getPermission());
-            if(p1.implies(p2) || p2.implies(p1)) {
+            if (p1.implies(p2) || p2.implies(p1)) {
                 return true;
             }
         }

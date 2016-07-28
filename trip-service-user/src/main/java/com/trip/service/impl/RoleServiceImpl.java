@@ -1,7 +1,10 @@
 package com.trip.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.trip.base.BaseServiceImpl;
 import com.trip.model.SysRole;
+import com.trip.model.SysUser;
 import com.trip.service.ResourceService;
 import com.trip.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +57,13 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
     @Override
     public List<SysRole> findAll() {
         return super.selectAll();
+    }
+
+    @Override
+    public PageInfo<SysRole> findAll(int page, int count) {
+        PageHelper.startPage(page, count, "id");
+        List<SysRole> list = super.selectAll();
+        return new PageInfo<SysRole>(list);
     }
 
     @Override

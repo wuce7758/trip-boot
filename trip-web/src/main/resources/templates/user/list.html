@@ -3,7 +3,42 @@
     <h3 class="title">Welcome !</h3>
 </div>
 <div class="row">
-    user list page!
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>用户名</th>
+                <th>所属组织</th>
+                <th>角色列表</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            #for(user : userPgae.list)
+            <tr>
+                <td>${user.username}</td>
+                <td>${user.organizationId}</td>
+                <td>${user.roleIds}</td>
+                <td>
+                    #tag has_permission("user:update")
+                    <a href="${WEBROOT}/user/${user.id}/update">修改</a>
+                    #end
+
+                    #tag has_permission("user:delete")
+                    <a href="${WEBROOT}/user/${user.id}/delete">删除</a>
+                    #end
+
+                    #tag has_permission("user:update")
+                    <a href="${WEBROOT}/user/${user.id}/changePassword">改密</a>
+                    #end
+                </td>
+            </tr>
+            #end
+            </tbody>
+        </table>
+
+        #call pager_bar(userPgae, "")
+    </div>
 </div> <!-- end row -->
 #include("../common/footer.html")
 </body>

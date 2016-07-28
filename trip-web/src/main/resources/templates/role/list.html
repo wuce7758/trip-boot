@@ -3,7 +3,39 @@
     <h3 class="title">Welcome !</h3>
 </div>
 <div class="row">
-    role list page!
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>角色名称</th>
+                <th>角色描述</th>
+                <th>拥有的资源</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            #for(role : rolePage.list)
+            <tr>
+                <td>${role.role}</td>
+                <td>${role.description}</td>
+                <td>${role.resourceIds}</td>
+                <td>
+                    #tag has_permission("role:update")
+                    <a href="${WEBROOT}/role/${role.id}/update">修改</a>
+                    #end
+
+                    #tag has_permission("role:delete")
+                    <a href="${WEBROOT}/role/${role.id}/delete">删除</a>
+                    #end
+
+                </td>
+            </tr>
+            #end
+            </tbody>
+        </table>
+
+        #call pager_bar(rolePage, "")
+    </div>
 </div> <!-- end row -->
 #include("../common/footer.html")
 </body>
