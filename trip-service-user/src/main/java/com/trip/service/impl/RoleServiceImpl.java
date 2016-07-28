@@ -56,6 +56,21 @@ public class RoleServiceImpl extends BaseServiceImpl<SysRole> implements RoleSer
         return super.selectAll();
     }
 
+    @Override
+    public void createRole(SysRole role) {
+        super.save(role);
+    }
+
+    @Override
+    public void updateRole(SysRole role) {
+        super.updateNotNull(role);
+    }
+
+    @Override
+    public void deleteRole(Long id) {
+        super.delete(id);
+    }
+
     private List<Long> string2List(String[] arr){
         List<Long> list = new ArrayList<>(arr.length);
         for(String str : arr){

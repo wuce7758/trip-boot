@@ -4,6 +4,7 @@ import com.trip.base.BaseServiceImpl;
 import com.trip.model.SysResource;
 import com.trip.service.ResourceService;
 import org.apache.shiro.authz.permission.WildcardPermission;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
@@ -62,6 +63,21 @@ public class ResourceServiceImpl extends BaseServiceImpl<SysResource> implements
             menus.add(resource);
         }
         return menus;
+    }
+
+    @Override
+    public void createResource(SysResource resource) {
+        super.save(resource);
+    }
+
+    @Override
+    public void updateResource(SysResource resource) {
+        super.updateNotNull(resource);
+    }
+
+    @Override
+    public void deleteResource(Long id) {
+        super.delete(id);
     }
 
     private boolean hasPermission(Set<String> permissions, SysResource resource) {

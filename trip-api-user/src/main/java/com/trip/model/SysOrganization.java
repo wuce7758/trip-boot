@@ -89,4 +89,8 @@ public class SysOrganization extends BaseEntity {
     public void setAvailable(Boolean available) {
         this.available = available;
     }
+
+    public String makeSelfAsParentIds() {
+        return getParentIds() + getId() + "/";
+    }
 }

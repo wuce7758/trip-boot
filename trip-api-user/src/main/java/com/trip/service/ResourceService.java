@@ -15,4 +15,10 @@ public interface ResourceService {
     List<SysResource> findAll();
 
     List<SysResource> findMenus(Set<String> permissions);
+
+    void createResource(SysResource resource);
+
+    void updateResource(SysResource resource);
+
+    void deleteResource(Long id);
 }

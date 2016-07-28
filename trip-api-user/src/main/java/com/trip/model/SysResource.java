@@ -155,4 +155,8 @@ public class SysResource extends BaseEntity {
     public void setIcon(String icon) {
         this.icon = icon;
     }
+
+    public String makeSelfAsParentIds() {
+        return getParentIds() + getId() + "/";
+    }
 }

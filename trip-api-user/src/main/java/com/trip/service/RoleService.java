@@ -25,4 +25,10 @@ public interface RoleService {
     Set<String> findPermissions(Long[] roleIds);
 
     List<SysRole> findAll();
+
+    void createRole(SysRole role);
+
+    void updateRole(SysRole role);
+
+    void deleteRole(Long id);
 }
