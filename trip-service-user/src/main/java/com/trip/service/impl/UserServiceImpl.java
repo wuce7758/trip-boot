@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -18,6 +19,9 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private PasswordHelper passwordHelper;
 
     @Override
     public SysUser findByUsername(String userName) {
@@ -53,5 +57,40 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser> implements UserSer
         Long[] roleIds = (Long[])ConvertUtils.convert(roleIdsStr.split(","), Long.class);
 
         return roleService.findPermissions(roleIds);
+    }
+
+    @Override
+    public void updateUser(SysUser user) {
+        super.updateNotNull(user);
+    }
+
+    @Override
+    public void createUser(SysUser user) {
+        //加密密码
+        passwordHelper.encryptPassword(user);
+        super.save(user);
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        super.delete(id);
+    }
+
+    @Override
+    public SysUser findOne(Long id) {
+        return super.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public void changePassword(Long id, String newPassword) {
+        SysUser user = this.findOne(id);
+        user.setPassword(newPassword);
+        passwordHelper.encryptPassword(user);
+        super.updateNotNull(user);
+    }
+
+    @Override
+    public List<SysUser> findAll() {
+        return super.selectAll();
     }
 }

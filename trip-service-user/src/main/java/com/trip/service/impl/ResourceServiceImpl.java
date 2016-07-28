@@ -50,7 +50,8 @@ public class ResourceServiceImpl extends BaseServiceImpl<SysResource> implements
                 continue;
             }
 
-            if(!resource.getType().equals("menu")) {
+            // 如果不是菜单
+            if(!resource.getType().equals(SysResource.ResourceType.menu.toString())) {
                 continue;
             }
 

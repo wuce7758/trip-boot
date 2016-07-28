@@ -1,7 +1,9 @@
 package com.trip.web;
 
+import com.trip.model.SysUser;
 import org.apache.shiro.authc.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -16,12 +18,11 @@ public class LoginController {
         return "signin";
     }
 
-    @RequestMapping(value = {"/signin"}, method = RequestMethod.POST)
-    public String showLoginForm(HttpServletRequest request, Map<String, Object> map) {
+    @RequestMapping(value = "signin", method = RequestMethod.POST)
+    public String showLoginForm(SysUser sysUser, HttpServletRequest request, Model model) {
 
         String exception = (String) request.getAttribute("shiroLoginFailure");
 
-        System.out.println("exception=" + exception);
         String msg = "";
         if (exception != null) {
             if (UnknownAccountException.class.getName().equals(exception)) {
@@ -38,7 +39,8 @@ public class LoginController {
                 msg = exception;
             }
         }
-        map.put("error", msg);
+        model.addAttribute("error", msg);
+        model.addAttribute("username", sysUser.getUsername());
         return "signin";
     }
 

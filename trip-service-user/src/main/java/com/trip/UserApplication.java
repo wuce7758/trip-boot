@@ -5,12 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.annotation.Order;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 // 启用事务管理
 @EnableTransactionManagement
 @SpringBootApplication
+@ConfigurationProperties(prefix = "shiro", locations = "classpath:config/shiro.properties")
 @Order(value = 2)
 public class UserApplication implements CommandLineRunner {
 

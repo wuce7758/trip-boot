@@ -12,6 +12,8 @@ public interface BaseService<T> {
 
     int save(T entity);
 
+    T insert(T entity);
+
     int delete(Object key);
 
     int updateAll(T entity);
@@ -22,4 +24,5 @@ public interface BaseService<T> {
 
     List<T> selectList(Example example);
 
+    List<T> selectAll();
 }

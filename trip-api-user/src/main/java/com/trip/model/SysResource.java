@@ -26,23 +26,8 @@ public class SysResource extends BaseEntity {
 
     private Boolean available;
 
-    public static enum ResourceType {
-
-        menu("菜单"), button("按钮");
-
-        private final String info;
-        private ResourceType(String info) {
-            this.info = info;
-        }
-
-        public String getInfo() {
-            return info;
-        }
-
-        @Override
-        public String toString() {
-            return super.toString();
-        }
+    public enum ResourceType {
+        menu, button;
     }
 
     /**

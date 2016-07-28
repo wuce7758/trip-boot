@@ -1,16 +1,16 @@
 package com.trip.base;
 
+import com.trip.util.MyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
-//@Component
 public class BaseServiceImpl<T> implements BaseService<T> {
 
     @Autowired
-    protected Mapper<T> mapper;
+    protected MyMapper<T> mapper;
 
     public Mapper<T> getMapper() {
         return mapper;
@@ -29,6 +29,12 @@ public class BaseServiceImpl<T> implements BaseService<T> {
     @Override
     public int save(T entity) {
         return mapper.insert(entity);
+    }
+
+    @Override
+    public T insert(T entity) {
+        mapper.insertUseGeneratedKeys(entity);
+        return entity;
     }
 
     @Override
@@ -54,6 +60,11 @@ public class BaseServiceImpl<T> implements BaseService<T> {
     @Override
     public List<T> selectList(Example example) {
         return mapper.selectByExample(example);
+    }
+
+    @Override
+    public List<T> selectAll() {
+        return mapper.selectAll();
     }
 
 }

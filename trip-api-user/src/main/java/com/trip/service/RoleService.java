@@ -3,6 +3,7 @@ package com.trip.service;
 
 import com.trip.model.SysRole;
 
+import java.util.List;
 import java.util.Set;
 
 public interface RoleService {
@@ -23,4 +24,5 @@ public interface RoleService {
      */
     Set<String> findPermissions(Long[] roleIds);
 
+    List<SysRole> findAll();
 }
