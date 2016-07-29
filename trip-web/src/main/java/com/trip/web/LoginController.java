@@ -4,10 +4,13 @@ import com.trip.model.SysUser;
 import org.apache.shiro.authc.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @Controller
@@ -42,6 +45,13 @@ public class LoginController {
         model.addAttribute("error", msg);
         model.addAttribute("username", sysUser.getUsername());
         return "signin";
+    }
+
+    @RequestMapping("session")
+    @ResponseBody
+    public ModelMap testSession(HttpSession session, ModelMap model) {
+        model.addAttribute("session_id", session.getId());
+        return model;
     }
 
     /**
