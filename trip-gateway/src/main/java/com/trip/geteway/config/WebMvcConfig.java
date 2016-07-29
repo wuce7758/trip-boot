@@ -3,15 +3,12 @@ package com.trip.geteway.config;
 import com.trip.geteway.interceptor.BaseInteceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.servlet.Filter;
-import java.util.List;
 
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
@@ -37,7 +34,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         super.addResourceHandlers(registry);
     }
 
-    @Override
+    /*@Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         for (HttpMessageConverter<?> converter : converters) {
             if (converter instanceof MappingJackson2HttpMessageConverter) {
@@ -45,7 +42,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 jacksonConverter.setPrettyPrint(true);
             }
         }
-    }
+    }*/
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
